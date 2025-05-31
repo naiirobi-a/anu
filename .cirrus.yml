@@ -34,6 +34,10 @@ task:
       - ls -l -a -h
       - ./w.sh
 
+  Install_package_script:
+      - sudo apt update && sudo apt install -y python3-pip
+      - sudo python3 -m pip install telegram-upload
+
   Sync_script:
       - 'curl -s "https://api.telegram.org/bot$tokentl/sendMessage" -d "chat_id=$idtl" -d "text=🔄 Start Sync Source..." > /dev/null 2>&1'
       - mkdir -p ~/rom
