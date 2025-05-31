@@ -43,10 +43,10 @@ task:
       - mkdir -p ~/rom
       - cd ~/rom
       - sleep 1m
-      - repo init -u https://github.com/LineageOS/android.git -b lineage-17.1 --depth=1
+      - repo init -u https://github.com/rxbi/losq.git -b lineage-17.1 --depth=1
       - git clone --depth=1 https://github.com/rxbi/rom romxx
       - mkdir -p .repo/local_manifests
-      - mv romxx/lineage.xml .repo/local_manifests/roomservice.xml
+      - mv romxx/device.xml .repo/local_manifests/roomservice.xml
       - repo sync
       - 'curl -s "https://api.telegram.org/bot$tokentl/sendMessage" -d "chat_id=$idtl" -d "text=✅ Sync Completed!" > /dev/null 2>&1'
 
