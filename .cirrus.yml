@@ -1,0 +1,41 @@
+environment:
+    gitconfig: "ENCRYPTED[!644deff6a47bcf536d9370d3de011bb787a8f258f43be1cc108ff422c8401f69c8582a07784c20132eca9c51650eec62!]"
+    credentials: "ENCRYPTED[!c984fd75279100c17c9d87ce977ba1d15f7b0bdf6102ac95decbc581e9c17026b46fdf3e2dacf1051967d730429b312c!]"
+    rcloneconfig: "ENCRYPTED[!c6dbdfefa8362a6445dcb9d4e660e9b73e4f423dae19b5a2dee759a9286f10bad5432628b8ccd36ec9b08f4c8eeaba06!]"
+    tokentl: "ENCRYPTED[!48df36a023301be77fca5928aee9d9aa41d168a17b49a1379dcdd2544d897abdd71244a71b29f810411fefc8404625d2!]"
+    idtl: "ENCRYPTED[!a12665bdcb530d0f6222ec4f353356c9819303c6a85209c78bd9c1f2d57b16912c9b96d60e567367846f2438f9f75967!]"
+
+task:
+    name: "Setting Up, Sync, Building and Uploading..."
+    timeout_in: 480m
+    container:
+        image: thisfor/build:latest
+        cpu: 8
+        memory: 32G
+    gitconfig_file:
+        path: /home/cirrus/.gitconfig
+        variable_name: gitconfig
+    credentials_config_file:
+        path: /home/cirrus/.git-credentials
+        variable_name: credentials
+    rclone_config_file:
+        path: /home/cirrus/.rclone.conf
+        variable_name: rcloneconfig
+
+    Build-Setup_background_script:
+        - curl -s "https://api.telegram.org/bot$tokentl/sendMessage" -d "chat_id=$idtl" -d "text=Build Started! https://cirrus-ci.com/task/$CIRRUS_TASK_ID"
+        - mkdir -p ~/rom ~/ccache
+        - ./collect.sh -d
+
+    Storage-Checker_background_script:
+        - df -h && lsblk && ls -l -a -h
+        - ./collect.sh -m
+
+    Sync_script:
+        - ./compile.sh -s
+
+    Build_script:
+        - ./compile.sh -r
+
+    Upload_script:
+        - ./collect.sh -u
