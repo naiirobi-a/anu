@@ -10,7 +10,7 @@ task:
   name: "Setting Up, Syncing, Building and Uploading..."
   timeout_in: 480m
   container:
-      image: inok2341/anu:latest
+      image: thisfor/build:latest
       cpu: 8
       memory: 32G
 
@@ -33,10 +33,6 @@ task:
       - lsblk
       - ls -l -a -h
       - ./w.sh
-
-  Install_package_script:
-      - sudo apt update && sudo apt install -y python3-pip
-      - sudo python3 -m pip install telegram-upload
 
   Sync_script:
       - 'curl -s "https://api.telegram.org/bot$tokentl/sendMessage" -d "chat_id=$idtl" -d "text=🔄 Start Sync Source..." > /dev/null 2>&1'
