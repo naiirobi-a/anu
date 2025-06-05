@@ -9,7 +9,7 @@ task:
     name: "Setting Up, Sync, Building and Uploading..."
     timeout_in: 480m
     container:
-        image: thisfor/build:latest
+        image: thisfor/anu:latest
         cpu: 8
         memory: 32G
     gitconfig_file:
