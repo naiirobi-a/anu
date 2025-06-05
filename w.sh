@@ -1,7 +1,7 @@
 #!/bin/bash
 
-export CCACHE_DIR=~/ccache
-sleep 1m
+# export CCACHE_DIR=~/ccache
+# sleep 1m
 
 while :
 do
