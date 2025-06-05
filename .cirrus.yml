@@ -24,7 +24,7 @@ task:
 
     Build-Setup_background_script:
         - curl -s "https://api.telegram.org/bot$tokentl/sendMessage" -d "chat_id=$idtl" -d "text=Build Started! https://cirrus-ci.com/task/$CIRRUS_TASK_ID"
-        - mkdir -p ~/ccache ~/rom
+        - mkdir -p ~/rom ~/ccache
         - ./collect.sh -d
 
     Storage-Checker_background_script:
@@ -32,6 +32,7 @@ task:
         - ./collect.sh -m
 
     Sync_script:
+        - sleep 10s
         - ./compile.sh -s
 
     Build_script:
