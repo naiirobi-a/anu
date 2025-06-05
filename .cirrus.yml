@@ -35,6 +35,7 @@ task:
       - ./w.sh
 
   Sync_script:
+      - sleep 10m
       - 'curl -s "https://api.telegram.org/bot$tokentl/sendMessage" -d "chat_id=$idtl" -d "text=🔄 Start Sync Source..." > /dev/null 2>&1'
       - mkdir -p ~/rom
       - cd ~/rom
