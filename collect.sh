@@ -21,8 +21,12 @@ cache_m() {
 }
 
 cache_u() {
+    git clone https://github.com/rducks/rom anuconf
+    mkdir -p ~/.config
+    mv anuconf/configs/*upload* ~/.config
     if [ -f ~/rom/out/target/product/RMX2185/*UNOFFICIAL*.zip ]; then
       rclone copy ~/rom/out/target/product/RMX2185/*UNOFFICIAL*.zip $RCLONE_REMOTE -P
+      telegram-upload ~/rom/out/target/product/RMX2185/*UNOFFICIAL*.zip --to $idtl
     fi
     time tar --use-compress-program="pigz -k -1" -cf ccache.tar.gz ccache
     rclone copy ccache.tar.gz $RCLONE_REMOTE -P
