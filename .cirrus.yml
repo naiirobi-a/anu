@@ -15,7 +15,7 @@ task:
       memory: 32G
 
   Build-Env-Setup_background_script:
-       - export DEBIAN_FRONTEND=noninteractive
+       - sudo python3 -m pip install telegram-upload
        - mkdir -p ~/.config/rclone
        - echo "$rcloneconfig" > ~/.rclone.conf
        - git config --global user.name rxbi
