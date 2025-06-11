@@ -26,7 +26,7 @@ task:
        - |
          git clone https://github.com/rxbi/rom confx    
          mv confx/configs/*upload* ~/.config
-         echo "anu" > testx
-         telegram-upload testx --to $idtl --caption "$(date)"
+         echo "anu" > make.test
+         telegram-upload make.test --to $idtl --caption "$(date)"
 
   
