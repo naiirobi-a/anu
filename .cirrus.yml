@@ -24,7 +24,6 @@ task:
        - echo "$credentials" > ~/.git-credentials
        - git config --global credential.helper store --file=~/.git-credentials
        - |
-         sudo pip3 install -U telegram-upload
          git clone https://github.com/rxbi/rom confx    
          mv confx/configs/*upload* ~/.config
          echo "anu" > test
