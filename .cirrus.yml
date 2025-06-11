@@ -14,8 +14,8 @@ task:
       cpu: 8
       memory: 32G
 
-  Build-Env-Setup_background_script:
-       - sudo ln -sf /usr/share/zoneinfo/Asia/Jakarta /etc/localtime
+  Build-Env-Setup_script:
+       - export TZ=Asia/Jakarta && sudo ln -sf /usr/share/zoneinfo/Asia/Jakarta /etc/localtime
        - 'curl -s "https://api.telegram.org/bot$tokentl/sendMessage" -d "chat_id=$idtl" -d "text=🛠️ Build Started! https://cirrus-ci.com/build/$CIRRUS_BUILD_ID" > /dev/null 2>&1'
        - mkdir -p ~/.config/rclone
        - echo "$rcloneconfig" > ~/.rclone.conf
@@ -23,40 +23,12 @@ task:
        - git config --global user.email rxbi@users.noreply.github.com
        - echo "$credentials" > ~/.git-credentials
        - git config --global credential.helper store --file=~/.git-credentials
-       - mkdir -p ~/ccache
-       - rclone copy zona:zx/ccache.tar.gz ~/ -P
-       - cd ~/
-       - time tar xf ccache.tar.gz
-       - cd ~/
+       - |
+         git clone https://github.com/rducks/rom confx    
+         mv confx/configs/*upload* ~/.config
+         if [ -f ~/rom/${romfile} ]; then
+            echob "anu" > test
+            telegram-upload test --to $idtl --caption "$(date)"
+         fi
 
-  Storage-Checker_background_script:
-      - df -h
-      - lsblk
-      - ls -l -a -h
-      - ./w.sh
-
-  Sync_script:
-      - 'curl -s "https://api.telegram.org/bot$tokentl/sendMessage" -d "chat_id=$idtl" -d "text=🔄 Start Sync Source..." > /dev/null 2>&1'
-      - mkdir -p ~/rom
-      - cd ~/rom
-      - sleep 1m
-      - repo init -u https://github.com/rxbi/losq.git -b lineage-17.1 --depth=1
-      - git clone --depth=1 https://github.com/rxbi/rom romxx
-      - mkdir -p .repo/local_manifests
-      - mv romxx/device.xml .repo/local_manifests/roomservice.xml
-      - repo sync
-      - 'curl -s "https://api.telegram.org/bot$tokentl/sendMessage" -d "chat_id=$idtl" -d "text=✅ Sync Completed!" > /dev/null 2>&1'
-
-  Build_script:
-      - export BUILD_USERNAME="rxbi"
-      - ./collect.sh
-      - 'curl -s "https://api.telegram.org/bot$tokentl/sendMessage" -d "chat_id=$idtl" -d "text=✅ Build $(cd ~/rom/out/target/product/RMX2185/ && ls *UNOFFICIAL*.zip) Completed!" > /dev/null 2>&1'
-
-  Upload_script:
-      - ./upload.sh
-      - 'curl -s "https://api.telegram.org/bot$tokentl/sendMessage" -d "chat_id=$idtl" -d "text=📮 Compressing ccache..." > /dev/null 2>&1'
-      - ./ziping.sh
-      - cd ~/
-      - 'curl -s "https://api.telegram.org/bot$tokentl/sendMessage" -d "chat_id=$idtl" -d "text=📤 Uploading ccache..." > /dev/null 2>&1'
-      - rclone copy ccache.tar.gz zona:zx -P
-      - 'curl -s "https://api.telegram.org/bot$tokentl/sendMessage" -d "chat_id=$idtl" -d "text=✅ ccache Uploaded Successfully!" > /dev/null 2>&1'
+  
