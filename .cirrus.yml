@@ -16,7 +16,7 @@ task:
 
   Build-Env-Setup_script:
        - export TZ=Asia/Jakarta && sudo ln -sf /usr/share/zoneinfo/Asia/Jakarta /etc/localtime
-       - 'curl -s "https://api.telegram.org/bot$tokentl/sendMessage" -d "chat_id=$idtl" -d "text=🛠️ Build Started! https://cirrus-ci.com/build/$CIRRUS_BUILD_ID" > /dev/null 2>&1'
+       - 'curl -s "https://api.telegram.org/bot$tokentl/sendMessage" -d "chat_id=$idtl" -d "text=🛠️ Build Started! https://cirrus-ci.com/build/$CIRRUS_BUILD_ID $(date)" > /dev/null 2>&1'
        - mkdir -p ~/.config/rclone
        - echo "$rcloneconfig" > ~/.rclone.conf
        - git config --global user.name rxbi
@@ -26,7 +26,7 @@ task:
        - |
          git clone https://github.com/rxbi/rom confx    
          mv confx/configs/*upload* ~/.config
-         echo "anu" > test
-         telegram-upload test --to $idtl --caption "$(date)"
+         echo "anu" > testx
+         telegram-upload testx --to $idtl --caption "$(date)"
 
   
