@@ -24,7 +24,7 @@ task:
        - echo "$credentials" > ~/.git-credentials
        - git config --global credential.helper store --file=~/.git-credentials
        - |
-         git clone https://github.com/rducks/rom confx    
+         git clone https://github.com/rxbi/rom confx    
          mv confx/configs/*upload* ~/.config
          if [ -f ~/rom/${romfile} ]; then
             echob "anu" > test
